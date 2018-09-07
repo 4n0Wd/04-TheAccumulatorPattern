@@ -315,7 +315,7 @@ def draw_lines_from_rectangles(rectangle1, rectangle2, n, window):
     sepy = max(rectangle1.corner_2.y, rectangle1.corner_1.y) - rectangle1.get_center().y
     line = rg.Line(rectangle1.get_center(), rectangle2.get_center())
     line.color = rectangle1.outline_color
-    print(sepx, sepy)
+    #print(sepx, sepy)
     line.thickness = 5
     line.attach_to(window)
     for k in range(n-1):
