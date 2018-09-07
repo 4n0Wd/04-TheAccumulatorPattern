@@ -104,7 +104,7 @@ def draw_squares_from_circle(n, circle, window):
 
     window.render()
     # ------------------------------------------------------------------
-    # TODO: 2. Implement and test this function.
+    # DONE: 2. Implement and test this function.
     #          Tests have been written for you (above).
     #
     # CONSIDER using the ACCUMULATOR IN GRAPHICS pattern,
@@ -127,8 +127,32 @@ def run_test_draw_circles_from_rectangle():
     print('  See the graphics windows that pop up.')
     print('--------------------------------------------------')
 
+    window = rg.RoseWindow(720, 500)
+    rectangle1 = rg.Rectangle(rg.Point(400, 250), rg.Point(440, 325))
+    rectangle1.fill_color = 'green'
+    rectangle1.outline_color = 'black'
+    rectangle1.outline_thickness = 5
+    draw_circles_from_rectangle(4, 5, rectangle1, window)
+
+    rectangle2 = rg.Rectangle(rg.Point(500, 400), rg.Point(600, 450))
+    rectangle2.fill_color = 'blue'
+    rectangle2.outline_color = 'red'
+    rectangle2.outline_thickness = 3
+    draw_circles_from_rectangle(8, 3, rectangle2, window)
+
+    window.close_on_mouse_click()
+
+    window = rg.RoseWindow(620, 380)
+    rectangle3 = rg.Rectangle(rg.Point(350, 280), rg.Point(375, 330))
+    rectangle3.fill_color = 'yellow'
+    rectangle3.outline_color = 'brown'
+    rectangle3.outline_thickness = 5
+    draw_circles_from_rectangle(6, 10, rectangle3, window)
+
+    window.close_on_mouse_click()
+
     # ------------------------------------------------------------------
-    # TODO: 3. Implement this TEST function.
+    # DONE: 3. Implement this TEST function.
     #   It TESTS the  draw_circles_from_rectangle  function
     #   defined below.  Include at least **   3   ** tests, of which
     #      ***  at least TWO tests are on ONE window and
@@ -181,8 +205,20 @@ def draw_circles_from_rectangle(m, n, rectangle, window):
       :type rectangle: rg.Rectangle
       :type window: rg.RoseWindow
     """
+    rectangle.attach_to(window)
+    radius1 = (rectangle.corner_2.y - rectangle.corner_1.y) / 2
+    radius2 = (rectangle.corner_2.x - rectangle.corner_1.x) / 2
+    for k in range(m):
+        circle = rg.Circle(rg.Point(rectangle.corner_1.x - (2 * (k + 1) - 1) * radius1, rectangle.corner_2.y - radius1), radius1)
+        circle.fill_color = rectangle.fill_color
+        circle.attach_to(window)
+    for k in range(n):
+        circle = rg.Circle(rg.Point(rectangle.corner_1.x + radius2, rectangle.corner_1.y - (2 * (k + 1) - 1) * radius2), radius2)
+        circle.outline_color = rectangle.outline_color
+        circle.attach_to(window)
+    window.render()
     # ------------------------------------------------------------------
-    # TODO: 4. Implement and test this function.
+    # DONE: 4. Implement and test this function.
     #          Tests have been written for you (above).
     #
     # CONSIDER using the ACCUMULATOR IN GRAPHICS pattern,
@@ -273,8 +309,26 @@ def draw_lines_from_rectangles(rectangle1, rectangle2, n, window):
       :type n: int
       :type window: rg.RoseWindow
       """
+    rectangle1.attach_to(window)
+    rectangle2.attach_to(window)
+    sepx = rectangle1.get_center().x - min(rectangle1.corner_1.x, rectangle1.corner_2.x)
+    sepy = max(rectangle1.corner_2.y, rectangle1.corner_1.y) - rectangle1.get_center().y
+    line = rg.Line(rectangle1.get_center(), rectangle2.get_center())
+    line.color = rectangle1.outline_color
+    print(sepx, sepy)
+    line.thickness = 5
+    line.attach_to(window)
+    for k in range(n-1):
+        line = rg.Line(rg.Point(rectangle1.get_center().x - (k+1)*sepx, rectangle1.get_center().y + (k+1)*sepy), rg.Point(rectangle2.get_center().x - (k+1)*sepx, rectangle2.get_center().y + (k+1)*sepy))
+        if k % 2 == 0:
+            line.color = rectangle2.outline_color
+        else:
+            line.color = rectangle1.outline_color
+        line.thickness = 5
+        line.attach_to(window)
+    window.render()
     # ------------------------------------------------------------------
-    # TODO: 5. Implement and test this function.
+    # DONE: 5. Implement and test this function.
     #          Tests have been written for you (above).
     #
     # CONSIDER using the ACCUMULATOR IN GRAPHICS pattern,
